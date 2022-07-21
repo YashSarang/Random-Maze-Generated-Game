@@ -44,8 +44,8 @@ tiles = [
 
 
 def world():
-    bgcolor('cyan')
-    path.color('blue')
+    bgcolor('pink')
+    path.color('green')
 
     for index in range(len(tiles)):
         tile = tiles[index]
@@ -58,7 +58,7 @@ def world():
             if tile == 1:
                 path.up()
                 path.goto(x + 10, y + 10)
-                path.dot(2, 'white')
+                path.dot(5, 'white')
 
 
 def square(x, y):

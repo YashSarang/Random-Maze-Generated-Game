@@ -86,20 +86,6 @@ def single_cell(x, y):
     pygame.display.update()
 
 
-def backtracking_cell(x, y):
-    # used to re-colour the path after single_cell
-    pygame.draw.rect(screen, BLUE, (x + 1, y + 1, 18, 18), 0)
-    # has visited cell
-    pygame.display.update()
-
-
-def solution_cell(x, y):
-    # used to show the solution
-    pygame.draw.rect(screen, YELLOW, (x+8, y+8, 5, 5), 0)
-    # has visited cell
-    pygame.display.update()
-
-
 def carve_out_maze(x, y):
     # starting positing of maze
     single_cell(x, y)
@@ -169,6 +155,21 @@ def carve_out_maze(x, y):
             time.sleep(.005)
             # change colour to green to identify backtracking path
             backtracking_cell(x, y)
+
+
+# START
+def backtracking_cell(x, y):
+    # used to re-colour the path after single_cell
+    pygame.draw.rect(screen, BLUE, (x + 1, y + 1, 18, 18), 0)
+    # has visited cell
+    pygame.display.update()
+
+
+def solution_cell(x, y):
+    # used to show the solution
+    pygame.draw.rect(screen, YELLOW, (x+8, y+8, 5, 5), 0)
+    # has visited cell
+    pygame.display.update()
 
 
 def plot_route_back(x, y):

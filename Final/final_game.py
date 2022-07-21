@@ -1,3 +1,4 @@
+# Importation
 from turtle import *
 
 import time
@@ -8,6 +9,8 @@ from freegames import floor, vector
 
 import idk  # Random Maze Code
 import numpy as np
+
+# Initialisation
 
 maze = idk.maze
 hehe = np.array(maze)
@@ -21,40 +24,50 @@ state = {'score': 0}
 path = Turtle(visible=False)
 writer = Turtle(visible=False)
 
-aim = vector(5, 0)  # Velocity = {in Pos X} 5px per sec
-our_user = vector(-180, 180)  # Spawn Location
-ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+# Velocity = {in Pos X} 5px per sec
+aim = vector(5, 0)
+
+# Spawn Location
+our_user = vector(-180, 180)
+
+# Opponents and their Velocity and Spawn Locations(if req)
+opponents = [
+    # [vector(-180, 160), vector(5, 0)],
+    # [vector(-180, -160), vector(0, 5)],
+    # [vector(100, 160), vector(0, -5)],
+    # [vector(100, -160), vector(-5, 0)],
 ]
 
+# updating the spawn location of the user to make sure it is not out of bonds.
 hehe[0] = hehe[1] = 1
-tiles = hehe
+tiles = hehe  # tiles is the map of our game in 1d (20x20)
 
-# tiles = [
-#     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-#     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-#     0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-#     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-#     0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-#     0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
-#     0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-#     0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-#     0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-#     0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-#     0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-#     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-#     0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-#     0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
-#     0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-#     0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
-#     0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-#     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-#     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-#     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-# ]
+
+'''
+Sample Map
+tiles = [                                             
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
+    0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+]
+'''
 
 
 def world():
@@ -67,12 +80,7 @@ def world():
         if tile > 0:
             x = (index % 20) * 20 - 200
             y = 180 - (index // 20) * 20
-            square(x, y)
-
-            if tile == 1:
-                path.up()
-                path.goto(x + 10, y + 10)
-                path.dot(5, 'pink')
+            square(x, y)  # Draw Square Path
 
 
 def square(x, y):
@@ -87,12 +95,16 @@ def square(x, y):
 
     path.end_fill()
 
+# returns the next index in which the pacman / ghosts will be moving.
+
 
 def offset(point):
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
     return index
+
+# returns True if the next tile is valid for movement.
 
 
 def valid(point):
@@ -101,9 +113,9 @@ def valid(point):
     try:
         if tiles[index] == 0:
             return False
-    except IndexError:
-        # Game Over Screen
 
+    # Game Over Screen
+    except IndexError:  # Handling the exception since when the user reaches the exit, we face an IndexError
         writer.goto(-150, 100)
         writer.write('Your Score was : ' +
                      str(state['score']), font=("Times New Roman", 30, "italic"))
@@ -120,6 +132,8 @@ def valid(point):
         return False
 
     return point.x % 20 == 0 or point.y % 20 == 0
+
+# used For controlling the movement of the user and opponents.
 
 
 def move():
@@ -142,9 +156,9 @@ def move():
 
     up()
     goto(our_user.x + 10, our_user.y + 10)
-    dot(15, 'black')
+    dot(15, 'black')  # Appearance of our user
 
-    for point, course in ghosts:
+    for point, course in opponents:
         if valid(point + course):
             point.move(course)
         else:
@@ -164,11 +178,15 @@ def move():
 
     update()
 
-    # for point, course in ghosts:
-    #     if abs(our_user - point) < 20:
-    #         return
+    # Condition to end game when user collides with the opponents
+    for point, course in opponents:
+        if abs(our_user - point) < 20:
+            return
 
     ontimer(move, 100)
+
+# Updates while execution by passing direction vectors acc to user
+# which we further pass onto move() function
 
 
 def change(x, y):
@@ -177,8 +195,7 @@ def change(x, y):
         aim.y = y
 
 
-setup(600, 600, 500, 120)
-
+setup(600, 600, 500, 120)  # Size of the GUI
 
 tracer(False)
 writer.goto(200, 160)
@@ -194,6 +211,5 @@ onkey(lambda: change(0, 5), 'Up')
 onkey(lambda: change(0, -5), 'Down')
 world()
 move()
-
 
 done()
